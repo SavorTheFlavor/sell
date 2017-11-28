@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.83.134/sell?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
+server:
+  context-path: /sell
+#logging:
+#  pattern:
+#    console: "%d - %msg%n" #日志格式
+##   path: E:/log/   #输出的日志路径
+#    file: E:/log/sell.log
+#  level:
+#    com.me.LoggerTest: debug
+
