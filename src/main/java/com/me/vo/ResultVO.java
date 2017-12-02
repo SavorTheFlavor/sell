@@ -13,6 +13,38 @@ public class ResultVO<T> {
     private String msg;
     private T data;
 
+    public static ResultVO success(){
+        ResultVO resultVO = new ResultVO();
+        resultVO.setCode(0);
+        resultVO.setMsg("success!!!");
+        resultVO.setData(null);
+        return  resultVO;
+    }
+
+    public static ResultVO success(Object data){
+        ResultVO resultVO = new ResultVO();
+        resultVO.setCode(0);
+        resultVO.setMsg("success!!!");
+        resultVO.setData(data);
+        return  resultVO;
+    }
+
+    public static ResultVO error(String msg){
+        ResultVO resultVO = new ResultVO();
+        resultVO.setCode(505);
+        resultVO.setMsg(msg);
+        resultVO.setData(null);
+        return  resultVO;
+    }
+
+    public static ResultVO error(Integer code, String msg){
+        ResultVO resultVO = new ResultVO();
+        resultVO.setCode(code);
+        resultVO.setMsg(msg);
+        resultVO.setData(null);
+        return  resultVO;
+    }
+
     public Integer getCode() {
         return code;
     }

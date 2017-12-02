@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * 包含类目及商品列表
+ * 包含一个类目及其商品列表
  */
 public class ProductsVO {
     @JsonProperty("name") //序列化为json时使用"name"
