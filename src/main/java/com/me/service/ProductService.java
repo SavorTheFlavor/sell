@@ -1,6 +1,7 @@
 package com.me.service;
 
 import com.me.bean.ProductInfo;
+import com.me.dto.Cart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +15,9 @@ public interface ProductService {
     List<ProductInfo> findUpAll();//find all 'up' products
     Page<ProductInfo> findAll(Pageable page);
     ProductInfo save(ProductInfo productInfo);
+
+    //减库存
+    void decreaseStock(List<Cart> productCart);
+    //加库存
+    void increaseStock(List<Cart> productCart);
 }

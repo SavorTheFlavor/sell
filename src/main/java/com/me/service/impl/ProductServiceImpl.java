@@ -2,12 +2,16 @@ package com.me.service.impl;
 
 import com.me.bean.ProductInfo;
 import com.me.dao.ProductInfoRepository;
+import com.me.dto.Cart;
 import com.me.enums.ProductStatusEnum;
+import com.me.enums.ResultEnum;
+import com.me.exception.SellException;
 import com.me.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,5 +42,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductInfo save(ProductInfo productInfo) {
         return productInfoRepository.save(productInfo);
+    }
+
+    @Override
+    @Transactional
+    public void decreaseStock(List<Cart> productCart) {
+        for(Cart cart : productCart){
+            ProductInfo productInfo = productInfoRepository.findOne(cart.getProductId());
+            if(productInfo == null){
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            Integer stock = productInfo.getProductStock() - cart.getProductQuantity();
+            if(stock < 0){
+                throw new SellException(ResultEnum.PRODUCT_STOCK_NOT_ENOUGH);
+            }
+            productInfo.setProductStock(stock);
+            productInfoRepository.save(productInfo);
+        }
+    }
+
+    @Override
+    public void increaseStock(List<Cart> productCart) {
+
     }
 }
