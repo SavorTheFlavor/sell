@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -56,8 +58,17 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void findList() throws Exception {
+    public void findOne() throws Exception {
+        String orderId = "1512451933166410444";
+        OrderDTO orderDTO = orderService.findOne(orderId);
+        System.out.println();
+    }
 
+    @Test
+    public void findList() throws Exception {
+        PageRequest pageRequest = new PageRequest(0,2);
+        Page<OrderDTO> orderDTOPages = orderService.findList(BUYER_OPENID,pageRequest);
+        System.out.println(orderDTOPages.getTotalElements());
     }
 
     @Test
