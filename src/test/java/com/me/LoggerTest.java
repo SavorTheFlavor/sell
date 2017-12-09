@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 //@Slf4j //Simple Logging Facade for Java
 public class LoggerTest {
-    private final Logger logger = LoggerFactory.getLogger(Logger.class);
+    private final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
 
     @Test
     public void test1(){

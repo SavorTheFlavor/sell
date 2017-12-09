@@ -73,7 +73,8 @@ public class OrderServiceImplTest {
 
     @Test
     public void cancel() throws Exception {
-
+        OrderDTO orderDTO = orderService.findOne("1512452132647961690");
+        orderDTO = orderService.cancel(orderDTO);
     }
 
     @Test

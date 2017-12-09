@@ -63,6 +63,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void increaseStock(List<Cart> productCart) {
-
+        for(Cart cart : productCart){
+            ProductInfo productInfo = productInfoRepository.findOne(cart.getProductId());
+            if(productInfo == null){
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            Integer stock = productInfo.getProductStock() + cart.getProductQuantity();
+            productInfo.setProductStock(stock);
+            productInfoRepository.save(productInfo);
+        }
     }
 }

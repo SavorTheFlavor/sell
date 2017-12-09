@@ -15,6 +15,8 @@ import com.me.exception.SellException;
 import com.me.service.OrderService;
 import com.me.service.ProductService;
 import com.me.util.KeyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +43,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     @Override
     @Transactional
@@ -109,8 +113,37 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO cancel(OrderDTO orderDTO) {
-        return null;
+        OrderMaster orderMaster = new OrderMaster();
+        //判断订单状态
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+            logger.error("[cancel order] the order has finished..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+        //修改订单状态
+        orderDTO.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+
+        OrderMaster updateRes = orderMasterRepository.save(orderMaster);
+        if(updateRes == null){
+            logger.error("[cancel order] cancel order failed!..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAILED);
+        }
+        //返还库存
+        if(orderDTO.getOrderDetailList().isEmpty()){
+            logger.error("[cancel order] nothing in the cart..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
+        }
+        List<Cart> cartList = orderDTO.getOrderDetailList().stream()
+                .map(e -> new Cart(e.getProductId(),e.getProductQuantity()))
+                .collect(Collectors.toList());
+        productService.increaseStock(cartList);
+
+        //if paid, refund the money
+        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
+            //TODO
+        }
+        return orderDTO;
     }
 
     @Override
