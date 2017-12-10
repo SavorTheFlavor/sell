@@ -13,7 +13,9 @@ public enum ResultEnum {
     ORDER_NOT_EXIST(2,"订单不存在！" ),
     ORDER_STATUS_ERROR(3,"order status error!"),
     ORDER_UPDATE_FAILED(4,"update order status failed!"),
-    ORDER_DETAIL_EMPTY(5,"there is no product in the order!");
+    ORDER_DETAIL_EMPTY(5,"there is no product in the order!"),
+    ORDER_PAY_STATUS_ERROR(6,"It is not a new order that waits to be paid!"),
+    ;
 
     private Integer code;
     private String message;

@@ -79,12 +79,15 @@ public class OrderServiceImplTest {
 
     @Test
     public void finish() throws Exception {
-
+        OrderDTO orderDTO = orderService.findOne("1512452132647961690");
+        orderDTO = orderService.finish(orderDTO);
     }
 
     @Test
     public void pay() throws Exception {
-
+        OrderDTO orderDTO = orderService.findOne("1512452132647961690");
+        orderDTO = orderService.pay(orderDTO);
+        Assert.assertEquals(orderDTO.getPayStatus(),PayStatusEnum.SUCCESS.getCode());
     }
 
 }

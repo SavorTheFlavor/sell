@@ -147,12 +147,53 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO finish(OrderDTO orderDTO) {
-        return null;
+        OrderMaster orderMaster = new OrderMaster();
+        //判断订单状态
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+            logger.error("[finish order] the order can't be finished..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+        //修改订单状态
+        orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+
+        OrderMaster updateRes = orderMasterRepository.save(orderMaster);
+        if(updateRes == null){
+            logger.error("[finish order] cancel order failed!..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAILED);
+        }
+
+        return orderDTO;
     }
 
     @Override
+    @Transactional
     public OrderDTO pay(OrderDTO orderDTO) {
-        return null;
+        OrderMaster orderMaster = new OrderMaster();
+
+        //判断订单状态
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+            logger.error("[pay order] the order can't be paid..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+        //判断支付状态
+        if(!orderDTO.getPayStatus().equals(PayStatusEnum.WAIT.getCode())){
+            logger.error("[pay order] the pay status error..., order={}",orderDTO);
+            throw new SellException(ResultEnum.ORDER_PAY_STATUS_ERROR);
+        }
+
+        //修改支付状态
+        orderDTO.setPayStatus(PayStatusEnum.SUCCESS.getCode());
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+
+        OrderMaster updateRes = orderMasterRepository.save(orderMaster);
+        if(updateRes == null){
+            logger.error("[pay order] pay order failed!..., order={}",orderDTO);
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAILED);
+        }
+
+        return orderDTO;
     }
 }
