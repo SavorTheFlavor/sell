@@ -5,20 +5,23 @@ import com.me.dto.OrderDTO;
 import com.me.enums.ResultEnum;
 import com.me.exception.SellException;
 import com.me.form.OrderForm;
+import com.me.service.BuyerService;
 import com.me.service.OrderService;
 import com.me.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +35,9 @@ public class BuyerOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     /**
      * create order
@@ -55,4 +61,35 @@ public class BuyerOrderController {
         map.put("orderId",creatResult.getOrderId());
         return  ResultVO.success(map);
     }
+
+    @GetMapping("/list")
+    public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
+                                         @RequestParam(value = "page",defaultValue = "0") Integer page,
+                                         @RequestParam(value = "size",defaultValue = "5") Integer size){
+        if(StringUtils.isEmpty(openid)){
+            logger.error("[order list] openid is null!");
+            throw new SellException(ResultEnum.PARAMETER_ERROR);
+        }
+
+        PageRequest pageRequest = new PageRequest(page,size);
+        Page<OrderDTO> orderDTOPage = orderService.findList(openid,pageRequest);
+        return ResultVO.success(orderDTOPage.getContent());
+    }
+
+    @RequestMapping("/detail")
+    public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
+                                     @RequestParam("orderId") String orderId){
+        OrderDTO orderDTO = buyerService.findOneOrder(openid,orderId);
+        return ResultVO.success(orderDTO);
+    }
+
+    @RequestMapping("/cancel")
+    public ResultVO cancel(@RequestParam("openid") String openid,
+                           @RequestParam("orderId") String orderId){
+        OrderDTO orderDTO = buyerService.cancelOrder(openid, orderId);
+        return ResultVO.success();
+    }
+
+
+
 }

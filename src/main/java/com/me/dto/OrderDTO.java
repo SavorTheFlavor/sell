@@ -1,9 +1,11 @@
 package com.me.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.me.bean.OrderDetail;
 import com.me.enums.OrderStatusEnum;
+import com.me.util.serializer.Date2LongSerializer;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,8 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by 廖师兄
- * 2017-06-11 18:30
  */
 @Data
 //@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
@@ -44,9 +44,11 @@ public class OrderDTO {
     private Integer payStatus;
 
     /** 创建时间. */
+    @JsonSerialize(using = Date2LongSerializer.class) //序列化为json时，使用这个类的serialize方法来序列化该字段
     private Date createTime;
 
     /** 更新时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     /**购买的商品列表*/
