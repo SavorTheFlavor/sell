@@ -1,6 +1,7 @@
 package com.me.dao;
 
-import com.me.bean.OrderMaster;
+import com.me.sell.bean.OrderMaster;
+import com.me.sell.dao.OrderMasterRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2017/12/4.

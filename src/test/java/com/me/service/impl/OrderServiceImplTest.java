@@ -1,9 +1,9 @@
 package com.me.service.impl;
 
-import com.me.bean.OrderDetail;
-import com.me.dto.OrderDTO;
-import com.me.enums.OrderStatusEnum;
-import com.me.enums.PayStatusEnum;
+import com.me.sell.bean.OrderDetail;
+import com.me.sell.dto.OrderDTO;
+import com.me.sell.enums.PayStatusEnum;
+import com.me.sell.service.impl.OrderServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2017/12/5.

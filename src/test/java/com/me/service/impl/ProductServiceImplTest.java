@@ -1,6 +1,7 @@
 package com.me.service.impl;
 
-import com.me.bean.ProductInfo;
+import com.me.sell.bean.ProductInfo;
+import com.me.sell.service.impl.ProductServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
