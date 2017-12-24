@@ -1,5 +1,8 @@
 package com.me.sell.controller;
 
+import com.me.sell.enums.ResultEnum;
+import com.me.sell.exception.SellException;
+import com.me.sell.util.CheckUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 
 /**
@@ -35,7 +41,8 @@ public class WeChatController {
         // and then use it...
         //自动拼装出了
         //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-        String rediectUrl = wxMpService.oauth2buildAuthorizationUrl(returnUrl, WxConsts.OAuth2Scope.SNSAPI_BASE, URLEncoder.encode(returnUrl));
+        String callBackUrl = "http://mytunnel4dev.free.ngrok.cc/sell/wechat/userInfo";
+        String rediectUrl = wxMpService.oauth2buildAuthorizationUrl(callBackUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         return "redirect:" + rediectUrl;
     }
 
@@ -48,10 +55,26 @@ public class WeChatController {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
             e.printStackTrace();
+            throw new SellException(ResultEnum.WX_MP_ERROR);
         }
         String openid = wxMpOAuth2AccessToken.getAccessToken();
         System.out.println("openid:"+openid);
-        return "rediect:"+returnUrl+"?openid="+openid;
+        return "redirect:"+returnUrl+"?openid="+openid;
+    }
+
+    @GetMapping("/signature")
+    public void checkSignature(String signature, String timestamp, String nonce, String echostr, HttpServletResponse resp){
+        PrintWriter out = null;
+        try {
+            out = resp.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        out.print(echostr);
+        out.close();
+//        if(CheckUtil.checkSignature(signature, timestamp, nonce)){
+//            out.print(echostr);
+//        }
     }
 
 }

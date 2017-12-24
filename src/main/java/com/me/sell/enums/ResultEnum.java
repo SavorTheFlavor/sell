@@ -17,7 +17,8 @@ public enum ResultEnum {
     ORDER_DETAIL_EMPTY(5,"there is no product in the order!"),
     ORDER_PAY_STATUS_ERROR(6,"It is not a new order that waits to be paid!"),
     CART_EMPTY(7,"get nothing to buy!"),
-    ORDER_OWNER_ERROR(8,"the order doesn't exist!");
+    ORDER_OWNER_ERROR(8,"the order doesn't exist!"),
+    WX_MP_ERROR(9,"something wrong with winxin mp...." );
 
     private Integer code;
     private String message;
