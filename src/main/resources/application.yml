@@ -14,6 +14,10 @@ server:
 wechat:
   mpAppId: wxb92b6b0201ed58ae
   mpAppSecret: 94fa3da1b180d40638e7a1a5ee541142
+  mchId: 2189139182 # 微信支付开通的商户平台id
+  mchKey: ssdjkfnasipfhaofhquiqoenonawn
+  keyPath: /var/weixin_cert/h5.p12  #证书位置
+  notifyUrl: http://sell.......... #支付结果通知地址
 #logging:
 #  pattern:
 #    console: "%d - %msg%n" #日志格式
