@@ -18,11 +18,11 @@ wechat:
   mchKey: ssdjkfnasipfhaofhquiqoenonawn
   keyPath: /var/weixin_cert/h5.p12  #证书位置
   notifyUrl: http://sell.......... #支付结果通知地址
-#logging:
-#  pattern:
-#    console: "%d - %msg%n" #日志格式
-##   path: E:/log/   #输出的日志路径
+logging:
+  pattern:
+    console: "%d - %msg%n" #日志格式
+#   path: E:/log/   #输出的日志路径
 #    file: E:/log/sell.log
-#  level:
-#    com.me.LoggerTest: debug
+  level:
+    com.me.LoggerTest: debug
 

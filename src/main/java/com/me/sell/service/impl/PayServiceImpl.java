@@ -3,6 +3,8 @@ package com.me.sell.service.impl;
 import com.lly835.bestpay.enums.BestPayTypeEnum;
 import com.lly835.bestpay.model.PayRequest;
 import com.lly835.bestpay.model.PayResponse;
+import com.lly835.bestpay.model.RefundRequest;
+import com.lly835.bestpay.model.RefundResponse;
 import com.lly835.bestpay.service.BestPayService;
 import com.me.sell.dto.OrderDTO;
 import com.me.sell.enums.ResultEnum;
@@ -10,6 +12,8 @@ import com.me.sell.exception.SellException;
 import com.me.sell.service.OrderService;
 import com.me.sell.service.PayService;
 import com.me.sell.util.MathUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,8 @@ import java.math.BigDecimal;
 public class PayServiceImpl implements PayService {
 
     private static final String ORDER_NAME = "Wechat Restaurant";
+
+    private Logger logger = LoggerFactory.getLogger(PayServiceImpl.class);
 
     @Autowired
     private OrderService orderService;
@@ -37,7 +43,7 @@ public class PayServiceImpl implements PayService {
         payRequest.setOrderId(orderDTO.getOrderId());
         payRequest.setOrderName(ORDER_NAME);
         payRequest.setPayTypeEnum(BestPayTypeEnum.WXPAY_H5);
-        PayResponse payResponse = bestPayService.pay(payRequest);
+        //PayResponse payResponse = bestPayService.pay(payRequest);
     }
 
     @Override
@@ -59,5 +65,17 @@ public class PayServiceImpl implements PayService {
         // change the pay status of the order .....
         orderService.pay(orderDTO);
         return payResponse;
+    }
+
+    @Override
+    public RefundResponse refund(OrderDTO orderDTO) {
+        RefundRequest refundRequest = new RefundRequest();
+        refundRequest.setOrderId(orderDTO.getOrderId());
+        refundRequest.setOrderAmount(orderDTO.getOrderAmount().doubleValue());
+        refundRequest.setPayTypeEnum(BestPayTypeEnum.WXPAY_H5);
+        logger.info("[微信退款] refundRequest={}",refundRequest);
+        RefundResponse refundResponse = bestPayService.refund(refundRequest);
+        logger.info("[微信退款] refundResponse={}",refundResponse);
+        return refundResponse;
     }
 }

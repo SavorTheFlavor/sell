@@ -31,7 +31,7 @@ public class WeChatController {
 
     private Logger logger = LoggerFactory.getLogger(WeChatController.class);
 
-    @Autowired
+//    @Autowired
     private WxMpService wxMpService;
 
     //获取code

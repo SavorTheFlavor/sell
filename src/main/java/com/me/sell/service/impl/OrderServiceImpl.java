@@ -9,6 +9,7 @@ import com.me.sell.dto.Cart;
 import com.me.sell.enums.ResultEnum;
 import com.me.sell.exception.SellException;
 import com.me.sell.service.OrderService;
+import com.me.sell.service.PayService;
 import com.me.sell.service.ProductService;
 import com.me.sell.util.KeyUtil;
 import com.me.sell.bean.ProductInfo;
@@ -43,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    @Autowired
+    private PayService payService;
 
     private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -141,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
 
         //if paid, refund the money
         if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
@@ -195,5 +199,12 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orderDTO;
+    }
+
+    @Override
+    public Page<OrderDTO> findList(Pageable pageable) {
+        Page<OrderMaster> orderMasters = orderMasterRepository.findAll(pageable);
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasters.getContent());
+        return new PageImpl<OrderDTO>(orderDTOList,pageable,orderMasters.getTotalElements());
     }
 }
