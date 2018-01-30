@@ -19,8 +19,9 @@ public enum ResultEnum {
     CART_EMPTY(7,"get nothing to buy!"),
     ORDER_OWNER_ERROR(8,"the order doesn't exist!"),
     WX_MP_ERROR(9,"something wrong with winxin mp...." ),
-    WXPAY_ORDER_AMOUNT_VERIFY_ERROR(10,"the database order amount is not consistent with the wxpay money amount....");
-
+    WXPAY_ORDER_AMOUNT_VERIFY_ERROR(10,"the database order amount is not consistent with the wxpay money amount...."),
+    ORDER_FINISH_SUCCESS(11,"订单完结成功"),
+    PRODUCT_STATUS_ERROR(22,"订单状态错误");
     private Integer code;
     private String message;
 

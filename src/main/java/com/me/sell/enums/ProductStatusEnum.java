@@ -3,7 +3,7 @@ package com.me.sell.enums;
 /**
  * Created by Administrator on 2017/12/2.
  */
-public enum ProductStatusEnum {
+public enum ProductStatusEnum implements CodeEnum{
     UP(0,"在架子上"),
     DOWN(1,"下架")
     ;

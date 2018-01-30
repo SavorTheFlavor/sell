@@ -20,4 +20,8 @@ public interface ProductService {
     void decreaseStock(List<Cart> productCart);
     //加库存
     void increaseStock(List<Cart> productCart);
+
+    ProductInfo onSale(String productId);
+
+    ProductInfo offSale(String productId);
 }

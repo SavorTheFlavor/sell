@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <#include "../common/header.ftl">
 </head>
 <body>
 
-    <div class="container">
+<div id="wrapper" class="toggled">
+
+    <#--边栏sidebar-->
+    <#include "../common/nav.ftl">
+
+    <#--主要内容content-->
+    <div id="page-content-wrapper">
+
+       <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <table class="table table-hover table-striped">
@@ -74,6 +80,10 @@
             </div>
         </div>
     </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.me.sell.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.me.sell.enums.ProductStatusEnum;
+import com.me.sell.util.EnumUtil;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -40,6 +42,11 @@ public class ProductInfo {
     private Date createTime;
 
     private Date updateTime;
+
+    @JsonIgnore
+    public ProductStatusEnum getProductStatusEnum() {
+        return EnumUtil.getEnumByCode(productStatus, ProductStatusEnum.class);
+    }
 
     public String getProductId() {
         return productId;
