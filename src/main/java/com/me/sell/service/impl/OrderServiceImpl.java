@@ -8,10 +8,7 @@ import com.me.sell.dao.OrderMasterRepository;
 import com.me.sell.dto.Cart;
 import com.me.sell.enums.ResultEnum;
 import com.me.sell.exception.SellException;
-import com.me.sell.service.OrderService;
-import com.me.sell.service.PayService;
-import com.me.sell.service.ProductService;
-import com.me.sell.service.PushMessageService;
+import com.me.sell.service.*;
 import com.me.sell.util.KeyUtil;
 import com.me.sell.bean.ProductInfo;
 import com.me.sell.dto.OrderDTO;
@@ -51,6 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PushMessageService pushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
 
     private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -97,6 +97,10 @@ public class OrderServiceImpl implements OrderService {
                 .map(e -> new Cart(e.getProductId(),e.getProductQuantity()))
                 .collect(Collectors.toList());
         productService.decreaseStock(cartList);
+
+        //向前端推送新订单消息
+        webSocket.sendMessage("有新订单啊！");
+
         return orderDTO;
     }
 

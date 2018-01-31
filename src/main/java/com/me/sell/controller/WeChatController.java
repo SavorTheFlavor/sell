@@ -49,7 +49,7 @@ public class WeChatController {
         //自动拼装出了
         //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
         String callBackUrl = "http://mytunnel4dev.free.ngrok.cc/sell/wechat/userInfo";
-        String rediectUrl = wxMpService.oauth2buildAuthorizationUrl(callBackUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
+        String rediectUrl = wxMpService.oauth2buildAuthorizationUrl(callBackUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, URLEncoder.encode(returnUrl));
         return "redirect:" + rediectUrl;
     }
 
@@ -88,7 +88,7 @@ public class WeChatController {
     @GetMapping("/qrAuthorize")
     public String qrAuthorize(@RequestParam("returnUrl") String returnUrl){
         String url = projectUrlConfig.getWechatOpenAuthorize() + "/sell/wechat/qrUserInfo";
-        String redirectUrl = wxOpenService.buildQrConnectUrl(url, WxConsts.QrConnectScope.SNSAPI_LOGIN, URLEncoder.encode(returnUrl));
+        String redirectUrl = wxOpenService.buildQrConnectUrl(url, WxConsts.QRCONNECT_SCOPE_SNSAPI_LOGIN, URLEncoder.encode(returnUrl));
         return "redirect:" + redirectUrl;
     }
 

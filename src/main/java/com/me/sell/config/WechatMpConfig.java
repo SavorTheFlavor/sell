@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WechatMpConfig {
 
-    //@Autowired
+    @Autowired
     private WechatAccountConfig wechatAccountConfig;
 
     @Bean //spring会调用该方法获取name为wxMpService的bean
