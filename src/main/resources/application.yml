@@ -30,7 +30,11 @@ wechat:
   mchId: 2189139182 # 微信支付开通的商户平台id
   mchKey: ssdjkfnasipfhaofhquiqoenonawn
   keyPath: /var/weixin_cert/h5.p12  #证书位置
-  notifyUrl: http://sell.......... #支付结果通知地址\
+  notifyUrl: http://sell.......... #支付结果通知地址
+
+  #微信消息模板id
+  templateId:
+    orderStatus: aslkfasrwrqfsafasnalgsag
 
 
 projectUrl:

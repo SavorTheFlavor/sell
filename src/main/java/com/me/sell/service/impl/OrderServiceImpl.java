@@ -11,6 +11,7 @@ import com.me.sell.exception.SellException;
 import com.me.sell.service.OrderService;
 import com.me.sell.service.PayService;
 import com.me.sell.service.ProductService;
+import com.me.sell.service.PushMessageService;
 import com.me.sell.util.KeyUtil;
 import com.me.sell.bean.ProductInfo;
 import com.me.sell.dto.OrderDTO;
@@ -47,6 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PayService payService;
+
+    @Autowired
+    private PushMessageService pushMessageService;
 
     private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -168,6 +172,9 @@ public class OrderServiceImpl implements OrderService {
             logger.error("[finish order] cancel order failed!..., orderId={},orderStatus",orderDTO.getOrderId(),orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_UPDATE_FAILED);
         }
+
+        //推送微信模板消息
+        pushMessageService.orderStatus(orderDTO);
 
         return orderDTO;
     }
