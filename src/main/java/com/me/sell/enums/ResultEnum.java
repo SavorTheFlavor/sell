@@ -21,7 +21,11 @@ public enum ResultEnum {
     WX_MP_ERROR(9,"something wrong with winxin mp...." ),
     WXPAY_ORDER_AMOUNT_VERIFY_ERROR(10,"the database order amount is not consistent with the wxpay money amount...."),
     ORDER_FINISH_SUCCESS(11,"订单完结成功"),
-    PRODUCT_STATUS_ERROR(22,"订单状态错误");
+    PRODUCT_STATUS_ERROR(22,"订单状态错误"),
+    LOGIN_FAIL(23,"login failed! check up the user info..."),
+    LOGOUT_SUCCESS(24,"login success!"),
+    WECHAT_MP_ERROR(25,"WECHAT_MP_ERROR"),
+    ;
     private Integer code;
     private String message;
 

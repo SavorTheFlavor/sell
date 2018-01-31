@@ -1,5 +1,6 @@
 package com.me.sell.controller;
 
+import com.me.sell.config.ProjectUrlConfig;
 import com.me.sell.enums.ResultEnum;
 import com.me.sell.exception.SellException;
 import com.me.sell.util.CheckUtil;
@@ -28,6 +29,12 @@ import java.net.URLEncoder;
 @Controller
 @RequestMapping("/wechat")
 public class WeChatController {
+
+    @Autowired
+    private ProjectUrlConfig projectUrlConfig;
+
+    @Autowired
+    private WxMpService wxOpenService;
 
     private Logger logger = LoggerFactory.getLogger(WeChatController.class);
 
@@ -75,6 +82,28 @@ public class WeChatController {
 //        if(CheckUtil.checkSignature(signature, timestamp, nonce)){
 //            out.print(echostr);
 //        }
+    }
+
+    //微信扫描登录
+    @GetMapping("/qrAuthorize")
+    public String qrAuthorize(@RequestParam("returnUrl") String returnUrl){
+        String url = projectUrlConfig.getWechatOpenAuthorize() + "/sell/wechat/qrUserInfo";
+        String redirectUrl = wxOpenService.buildQrConnectUrl(url, WxConsts.QrConnectScope.SNSAPI_LOGIN, URLEncoder.encode(returnUrl));
+        return "redirect:" + redirectUrl;
+    }
+
+    @GetMapping("/qrUserInfo")
+    public String qrUserInfo(@RequestParam("code") String code,
+                             @RequestParam("state") String returnUrl) {
+        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = new WxMpOAuth2AccessToken();
+        try {
+            wxMpOAuth2AccessToken = wxOpenService.oauth2getAccessToken(code);
+        } catch (WxErrorException e) {
+            throw new SellException(ResultEnum.WECHAT_MP_ERROR, e.getError().getErrorMsg());
+        }
+        String openId = wxMpOAuth2AccessToken.getOpenId();
+
+        return "redirect:" + returnUrl + "?openid=" + openId;
     }
 
 }
