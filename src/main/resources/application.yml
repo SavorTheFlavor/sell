@@ -50,6 +50,9 @@ logging:
 #    file: E:/log/sell.log
   level:
     com.me.LoggerTest: debug
+    com.me.sell.dao.mapper: trace
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
 
 
 
