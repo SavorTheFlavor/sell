@@ -9,6 +9,7 @@ import com.me.sell.bean.ProductCategory;
 import com.me.sell.bean.ProductInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,9 @@ public class BuyerProductController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
+    //key默认为方法参数值
+    @Cacheable(cacheNames = "product", key = "1234") //cacheNames：一个cache的name，key:在这个cache中的key值(value就是这个方法的返回值
+    //@Cacheable(key = "#productId",condition = "#productId.length() > 3",unless="#result.getCode() != 0")
     public ResultVO list(){
 
         //查询所有上架商品

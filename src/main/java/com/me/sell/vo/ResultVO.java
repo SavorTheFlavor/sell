@@ -1,11 +1,14 @@
 package com.me.sell.vo;
 
+import java.io.Serializable;
+
 /**
  * http请求返回的最外层对象(Json格式)
  * VO, view object
  */
 //@Data 但是ide会报错啊
-public class ResultVO<T> {
+public class ResultVO<T> implements Serializable{
+
     private Integer code;
     private String msg;
     private T data;

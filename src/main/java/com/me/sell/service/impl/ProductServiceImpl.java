@@ -8,6 +8,8 @@ import com.me.sell.dto.Cart;
 import com.me.sell.enums.ProductStatusEnum;
 import com.me.sell.enums.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,14 @@ import java.util.List;
  * Created by Administrator on 2017/12/2.
  */
 @Service
+@CacheConfig(cacheNames = "product")
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductInfoRepository productInfoRepository;
 
     @Override
+    @Cacheable(key = "223")
     public ProductInfo findOne(String productId) {
         return productInfoRepository.findOne(productId);
     }
@@ -40,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "223")
     public ProductInfo save(ProductInfo productInfo) {
         return productInfoRepository.save(productInfo);
     }
