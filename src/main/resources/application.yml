@@ -17,7 +17,6 @@ spring:
 server:
   context-path: /sell
 wechat:
-
   #微信公众平台
   mpAppId: wxb92b6b0201ed58ae
   mpAppSecret: 94fa3da1b180d40638e7a1a5ee541142
@@ -53,6 +52,7 @@ logging:
     com.me.sell.dao.mapper: trace
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
 
 
 
