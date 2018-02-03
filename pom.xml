@@ -99,6 +99,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>sell</finalName> <!--打成jar包后的包名  clean package __DMavem.skip.test=true 跳过单元测试-->
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
